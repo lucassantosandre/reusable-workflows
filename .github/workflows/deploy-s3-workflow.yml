@@ -38,7 +38,7 @@ jobs:
         with:
           bucket-name: bkt-custom-action-hosting
           # bucket-region: ${{ secrets.BUCKET_REGION }}
-          dist-folder: ./dist
+          dist-folder: ./
       - name: Set output
         id: set-output
         run: echo "::set-output name=steps-result::success"
