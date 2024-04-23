@@ -1,0 +1,48 @@
+name: Deploy
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+    inputs:
+      artifact-name:
+        description: 'The name of the deployable artifact to download'
+        required: true
+        default: dist
+        type: string
+    outputs:
+      result:
+        description: 'The result of the deployment'
+        value: ${{ jobs.deploy.outputs.outcome }}
+jobs:
+  deploy:
+    outputs:
+      outcome: ${{ steps.set-output.outputs.steps-result }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+      - name: Get code
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: List files
+        run: ls -lrt
+      - name: Deploy using Js Custom Action
+        id: deploy
+        uses: lucassantosandre/reusable-workflows/.github/actions/deploy-s3-docker@main
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        with:
+          bucket-name: bkt-custom-action-hosting
+          # bucket-region: ${{ secrets.BUCKET_REGION }}
+          dist-folder: ./
+      - name: Set output
+        id: set-output
+        run: echo "::set-output name=steps-result::success"
+      - name: Output Information
+        run: |
+          echo "Live URL: ${{ steps.deploy.outputs.website-url }}"
