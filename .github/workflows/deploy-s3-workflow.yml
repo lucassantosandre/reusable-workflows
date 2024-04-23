@@ -24,6 +24,12 @@ jobs:
     steps:
       - name: Checkout repository 
         uses: actions/checkout@v4
+      - name: Get code
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: List files
+        run: ls -lrt
       - name: Deploy using Js Custom Action
         uses: lucassantosandre/reusable-workflows/.github/actions/deploy-s3-js@main
         env:
