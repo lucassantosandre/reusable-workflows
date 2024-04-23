@@ -8,6 +8,6 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & Cache Dependencies
-        uses: lucassantosandre/reusable-workflows/.github/actions/cached-deps
+        uses: lucassantosandre/reusable-workflows/.github/actions/cached-deps@main
       - name: Lint code
         run: npm run lint
