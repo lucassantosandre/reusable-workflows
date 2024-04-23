@@ -40,6 +40,8 @@ jobs:
   information:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
       - name: Run Js Custom Action
         uses: lucassantosandre/reusable-workflows/.github/actions/deploy-s3-js@main
         with:
