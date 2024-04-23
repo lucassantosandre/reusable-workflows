@@ -1,0 +1,11 @@
+name: Report
+on:
+  workflow_call:
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print test report
+        run: |
+          echo "Something went wrong"
+          echo "${{ toJson(github) }}"

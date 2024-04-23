@@ -1,0 +1,29 @@
+name: Website Deployment
+on: [push, workflow_dispatch]
+jobs:
+  lint:
+    uses: ./.github/workflows/lint-workflow.yml
+  test:
+    needs: lint
+    uses: ./.github/workflows/test-workflow.yml
+  build:
+    needs: test
+    uses: ./.github/workflows/build-workflow.yml
+  deploy:
+    needs: build
+    uses: ./.github/workflows/deploy-workflow.yml
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    with:
+      artifact-name: dist-files
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deployment result
+        run: | 
+          echo "Deployment result: ${{ needs.deploy.outputs.result }}"
+  report:
+    needs: [lint, deploy]
+    if: failure()
+    uses: ./.github/workflows/report-workflow.yml

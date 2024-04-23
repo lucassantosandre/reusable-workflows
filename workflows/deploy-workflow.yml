@@ -1,0 +1,39 @@
+name: Deploy
+on:
+  workflow_call:
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+    inputs:
+      artifact-name:
+        description: 'The name of the deployable artifact to download'
+        required: true
+        default: dist
+        type: string
+    outputs:
+      result:
+        description: 'The result of the deployment'
+        value: ${{ jobs.deploy.outputs.outcome }}
+jobs:
+  deploy:
+    outputs:
+      outcome: ${{ steps.set-output.outputs.steps-result }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Get code
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: List files
+        run: ls -lrt
+      - name: Deploy
+        run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod -y
+      - name: Set output
+        id: set-output
+        run: echo "::set-output name=steps-result::success"
