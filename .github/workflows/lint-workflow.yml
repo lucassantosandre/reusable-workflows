@@ -8,6 +8,12 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & Cache Dependencies
+        id: cache-deps
         uses: lucassantosandre/reusable-workflows/.github/actions/cached-deps@main
+        with:
+          caching: 'false'
+      - name: Output Cache Usage
+        run: |
+          echo "Cache used: ${{ steps.cache-deps.outputs.used-cache }}"
       - name: Lint code
         run: npm run lint
