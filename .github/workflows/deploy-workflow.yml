@@ -44,9 +44,3 @@ jobs:
         uses: actions/checkout@v4
       - name: Run Js Custom Action
         uses: lucassantosandre/reusable-workflows/.github/actions/deploy-s3-js@main
-        with:
-          bucket-name: ${{ secrets.BUCKET_NAME }}
-          region: ${{ secrets.REGION }}
-          access-key-id: ${{ secrets.ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
-          artifact-name: ${{ inputs.artifact-name }}

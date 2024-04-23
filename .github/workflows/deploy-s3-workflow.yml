@@ -1,0 +1,36 @@
+name: Deploy
+on:
+  workflow_call:
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+    inputs:
+      artifact-name:
+        description: 'The name of the deployable artifact to download'
+        required: true
+        default: dist
+        type: string
+    outputs:
+      result:
+        description: 'The result of the deployment'
+        value: ${{ jobs.deploy.outputs.outcome }}
+jobs:
+  deploy:
+    outputs:
+      outcome: ${{ steps.set-output.outputs.steps-result }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+      - name: Deploy using Js Custom Action
+        uses: lucassantosandre/reusable-workflows/.github/actions/deploy-s3-js@main
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        with:
+          bucket-name: bkt-custom-action-hosting
+          # bucket-region: ${{ secrets.BUCKET_REGION }}
+          dist-folder: ./dist
+      - name: Set output
+        id: set-output
+        run: echo "::set-output name=steps-result::success"
