@@ -1,5 +1,5 @@
 name: Website Deployment
-on: [push, workflow_dispatch]
+on: workflow_call
 jobs:
   lint:
     uses: ./.github/workflows/lint-workflow.yml
