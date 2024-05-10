@@ -1,0 +1,34 @@
+name: Dotnet - Sonar Begin
+description: 'Prepare Sonar to analysis'
+# inputs:
+#   app-fullname:
+#     required: true
+#     type: string
+#   branch-name:
+#     required: true
+#     type: string
+#   coverage-file:
+#     required: true
+#     type: string
+#   sonar-token:
+#     required: true
+#   sonar-host-url:
+#     required: true
+ 
+runs:
+  using: "composite"
+  steps:
+    - name: SonarScanner Begin
+      run: |
+        dotnet sonarscanner begin  `
+        /k:${{ inputs.app-fullname }}:b3 `
+        /d:sonar.branch.name=${{ inputs.branch-name }} `
+        /d:sonar.host.url=${{ inputs.sonar-host-url }}  `
+        /d:sonar.login=${{ inputs.sonar-token }} `
+        /d:sonar.dependencyCheck.htmlReportPath=**/dependency-check*.html `
+        /d:sonar.dependencyCheck.jsonReportPath=**/dependency-check*.json `
+        /d:sonar.cs.vscoveragexml.reportsPaths=**/${{ inputs.coverage-file }} `
+        /d:sonar.cpd.exclusions=** `
+        /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml `
+        /d:sonar.cs.vstest.reportsPaths=**/*.trx
+      shell: powershell
