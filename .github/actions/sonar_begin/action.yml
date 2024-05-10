@@ -4,16 +4,21 @@ inputs:
   app-fullname:
     required: true
     type: string
+    default: 'app-fullname'
   branch-name:
     required: true
     type: string
+    default: 'main'
   coverage-file:
     required: true
     type: string
+    default: 'coverage.opencover.xml'
   sonar-token:
     required: true
+    default: 'sonar-token'
   sonar-host-url:
     required: true
+    default: 'sonar-host-url'
  
 runs:
   using: "composite"
