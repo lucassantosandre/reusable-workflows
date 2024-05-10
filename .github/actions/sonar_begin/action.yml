@@ -18,6 +18,14 @@ description: 'Prepare Sonar to analysis'
 runs:
   using: "composite"
   steps:
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x' # replace with your .NET version
+
+    - name: Install SonarScanner
+      run: dotnet tool install --global dotnet-sonarscanner
+
     - name: SonarScanner Begin
       run: |
         dotnet sonarscanner begin  `
