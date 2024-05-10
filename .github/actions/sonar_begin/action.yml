@@ -24,9 +24,12 @@ runs:
         dotnet-version: '3.1.x' # replace with your .NET version
 
     - name: Install SonarScanner
-      run: dotnet tool install --global dotnet-sonarscanner
+      shell: powershell
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
 
     - name: SonarScanner Begin
+      shell: powershell
       run: |
         dotnet sonarscanner begin  `
         /k:${{ inputs.app-fullname }}:b3 `
@@ -39,4 +42,3 @@ runs:
         /d:sonar.cpd.exclusions=** `
         /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml `
         /d:sonar.cs.vstest.reportsPaths=**/*.trx
-      shell: powershell
