@@ -1,19 +1,19 @@
 name: Dotnet - Sonar Begin
 description: 'Prepare Sonar to analysis'
-# inputs:
-#   app-fullname:
-#     required: true
-#     type: string
-#   branch-name:
-#     required: true
-#     type: string
-#   coverage-file:
-#     required: true
-#     type: string
-#   sonar-token:
-#     required: true
-#   sonar-host-url:
-#     required: true
+inputs:
+  app-fullname:
+    required: true
+    type: string
+  branch-name:
+    required: true
+    type: string
+  coverage-file:
+    required: true
+    type: string
+  sonar-token:
+    required: true
+  sonar-host-url:
+    required: true
  
 runs:
   using: "composite"
