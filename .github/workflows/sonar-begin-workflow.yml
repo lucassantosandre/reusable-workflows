@@ -1,0 +1,11 @@
+name: sonar begin
+on:
+  workflow_call:
+jobs:
+  lint:
+    runs-on: windows-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Sonar Begin
+        uses: lucassantosandre/reusable-workflows/.github/actions/sonar_begin@main
