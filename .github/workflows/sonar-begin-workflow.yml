@@ -2,7 +2,7 @@ name: sonar begin
 on:
   workflow_call:
 jobs:
-  lint:
+  sonar_begin:
     runs-on: windows-latest
     steps:
       - name: Get code
